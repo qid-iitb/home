@@ -17,6 +17,6 @@ async function updateAnnouncements(){const target=document.querySelector('.news-
 async function updateResearch(){const target=document.querySelector('.research-list');if(!target||!sheetId)return;const data=(await readSheet('Research')).filter(x=>(x.Display||'').toLowerCase()==='yes').sort((a,b)=>(+a.Order||999)-(+b.Order||999));target.innerHTML=data.map((x,i)=>{const photo=imageUrl(x['Image URL']);return `<article class="research-item"><span>${String(i+1).padStart(2,'0')}</span><h2>${escapeHtml(x.Title)}</h2><p>${escapeHtml(x.Description)}</p>${photo?`<img class="research-figure" src="${escapeHtml(photo)}" alt="${escapeHtml(x['Image alt']||x.Title)}">`:''}</article>`;}).join('');}
 Promise.all([updateAnnouncements(),updateResearch()]).catch(error=>console.warn('Google Sheet content not loaded:',error));
 /* IIT Bombay identity and arXiv source are kept here so every page stays consistent. */
-document.querySelectorAll('.brand span:last-child').forEach(x=>x.innerHTML='Quantum Information<br>Theory Group');
+document.querySelectorAll('.brand span:last-child').forEach(x=>x.innerHTML='Quantum Information<br>Dynamics Group');
 document.querySelectorAll('footer span:last-child').forEach(x=>x.textContent='Department of Physics · Indian Institute of Technology Bombay');
 if(location.pathname.endsWith('index.html')||location.pathname==='/'){const e=document.querySelector('.hero .eyebrow');if(e)e.textContent='Department of Physics · Indian Institute of Technology Bombay';}
