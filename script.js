@@ -1,7 +1,7 @@
 const toggle=document.querySelector('.menu-toggle');const nav=document.querySelector('nav');
 if(toggle){toggle.addEventListener('click',()=>{const open=nav.classList.toggle('open');toggle.setAttribute('aria-expanded',open);toggle.textContent=open?'Close':'Menu'});}
 /* Paste the Google Sheet ID between the quotes to activate automatic content updates. */
-const sheetId="";
+const sheetId="1IOMV15nQX0lOy07A6Pxn-Cl0S0HYsPMk";
 const csvUrl=tab=>`https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(tab)}`;
 function csvRows(text){const rows=[];let row=[],cell='',quoted=false;for(let i=0;i<text.length;i++){const c=text[i],next=text[i+1];if(c==='"'&&quoted&&next==='"'){cell+='"';i++;}else if(c==='"'){quoted=!quoted;}else if(c===','&&!quoted){row.push(cell);cell='';}else if((c==='\n'||c==='\r')&&!quoted){if(c==='\r'&&next==='\n')i++;row.push(cell);if(row.some(x=>x.trim()))rows.push(row);row=[];cell='';}else cell+=c;}if(cell||row.length){row.push(cell);rows.push(row);}return rows;}
 async function readSheet(tab){const response=await fetch(csvUrl(tab));if(!response.ok)throw new Error(`Could not load ${tab}`);const [headers,...rows]=csvRows(await response.text());return rows.map(row=>Object.fromEntries(headers.map((h,i)=>[h.trim(),(row[i]||'').trim()])));}
